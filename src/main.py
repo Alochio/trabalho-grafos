@@ -21,8 +21,7 @@ def read_dimacs_file(file_path):
 
 # Função para executar com timeout
 def run_with_timeout(func, *args, timeout=600):
-    start_time = time.time()
-    
+    start_time = time.perf_counter()  # Melhor precisão de medição de tempo
     try:
         result = func(*args)
     except MemoryError as e:
@@ -30,7 +29,7 @@ def run_with_timeout(func, *args, timeout=600):
     except Exception as e:
         return None, str(e), None
     
-    elapsed_time = time.time() - start_time
+    elapsed_time = time.perf_counter() - start_time
     
     if elapsed_time > timeout:
         return None, "TEMPO LIMITE", elapsed_time
