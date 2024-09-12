@@ -22,22 +22,7 @@ def read_dimacs_file(file_path):
 # Função para executar com timeout
 def run_with_timeout(func, *args, timeout=600):
     start_time = time.perf_counter()
-    try:
-        result = func(*args)
-    except MemoryError as e:
-        return None, str(e), None
-    except Exception as e:
-        return None, str(e), None
     
-    elapsed_time = time.perf_counter() - start_time
-    print(f"Tempo total medido: {elapsed_time:.3f}s")  # Adicione isto para depuração
-    
-    if elapsed_time > timeout:
-        return None, "TEMPO LIMITE", elapsed_time
-    
-    return result, None, elapsed_time
-
-    start_time = time.perf_counter()
     try:
         result = func(*args)
     except MemoryError as e:
@@ -48,21 +33,7 @@ def run_with_timeout(func, *args, timeout=600):
     elapsed_time = time.perf_counter() - start_time
     
     if elapsed_time > timeout:
-        return None, "TEMPO LIMITE", elapsed_time
-    
-    return result, None, elapsed_time
-
-    start_time = time.perf_counter()  # Melhor precisão de medição de tempo
-    try:
-        result = func(*args)
-    except MemoryError as e:
-        return None, str(e), None
-    except Exception as e:
-        return None, str(e), None
-    
-    elapsed_time = time.perf_counter() - start_time
-    
-    if elapsed_time > timeout:
+        print("TEMPO LIMITE ULTRAPASSADO")  # Informe que o tempo foi excedido
         return None, "TEMPO LIMITE", elapsed_time
     
     return result, None, elapsed_time
@@ -221,7 +192,7 @@ def main():
     print("Processando ...")
     print("-" * 100)
     
-    result, error, time_taken = run_with_timeout(dijkstra, graph, start, end, timeout=1)
+    result, error, time_taken = run_with_timeout(dijkstra, graph, start, end, timeout=600)
     if error:
         print("Algoritmo de Dijkstra:")
         print(error)
@@ -254,7 +225,7 @@ def main():
     
     # Algoritmo de Floyd-Warshall
     fw_reconstruct_path = floyd_warshall(graph)
-    result, error, time_taken = run_with_timeout(lambda: fw_reconstruct_path(start, end), timeout=600)
+    result, error, time_taken = run_with_timeout(lambda: fw_reconstruct_path(start, end), timeout=1)
     if error:
         print("Algoritmo de Floyd-Warshall:")
         print(error)
