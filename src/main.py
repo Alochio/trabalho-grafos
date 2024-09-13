@@ -225,7 +225,7 @@ def main():
     
     # Algoritmo de Floyd-Warshall
     fw_reconstruct_path = floyd_warshall(graph)
-    result, error, time_taken = run_with_timeout(lambda: fw_reconstruct_path(start, end), timeout=1)
+    result, error, time_taken = run_with_timeout(lambda: fw_reconstruct_path(start, end), timeout=600)
     if error:
         print("Algoritmo de Floyd-Warshall:")
         print(error)
