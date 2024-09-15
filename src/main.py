@@ -2,7 +2,7 @@ import sys
 import time
 import networkx as nx
 import heapq
-import gc  # Importa o coletor de lixo para forçar a coleta
+import gc
 
 # Função para ler o arquivo DIMACS
 def read_dimacs_file(file_path):
@@ -32,8 +32,9 @@ def run_with_timeout(func, *args, timeout=600):
     
     elapsed_time = time.perf_counter() - start_time
     
+    # Informe que o tempo foi excedido
     if elapsed_time > timeout:
-        print("TEMPO LIMITE ULTRAPASSADO")  # Informe que o tempo foi excedido
+        print("TEMPO LIMITE ULTRAPASSADO")
         return None, "TEMPO LIMITE", elapsed_time
     
     return result, None, elapsed_time
@@ -45,7 +46,7 @@ def dijkstra(graph, start, end):
     dist[start] = 0
     
     # Fila de prioridade
-    priority_queue = [(0, start)]  # (distância, vértice)
+    priority_queue = [(0, start)]
     
     while priority_queue:
         current_dist, u = heapq.heappop(priority_queue)
